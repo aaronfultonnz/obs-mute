@@ -1,7 +1,7 @@
 # obs-mute
 OBS script for muting/unmuting audio sources when specific scenes are transitioned to/from.
 
-Up to 10 scenes can be selected and one audio source.
+Up to 20 scenes can be selected and one audio source.
 
 ## Usage
 * Download this script to a safe location on your OBS PC
