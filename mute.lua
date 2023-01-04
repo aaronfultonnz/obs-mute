@@ -1,5 +1,5 @@
 --- This script adds the ability to mute/unmute a sound source when specific scenes are activated/deactivated
---- Up to 20 scenes can be selected and one audio source.
+--- up to all your scenes can be selected and one audio source.
 ---
 --- Usage:
 ---  Download this script to a safe location on your OBS PC
@@ -11,27 +11,12 @@
 ---  If the scene or audio source is not listed on the script settings page, press the refresh button.
 
 obs = obslua
+scenes_qty = obs.obs_frontend_get_scenes()  -- sets the amount of scenes availables
 
-scene1 = ""
-scene2 = ""
-scene3 = ""
-scene4 = ""
-scene5 = ""
-scene6 = ""
-scene7 = ""
-scene8 = ""
-scene9 = ""
-scene10 = ""
-scene11 = ""
-scene12 = ""
-scene13 = ""
-scene14 = ""
-scene15 = ""
-scene16 = ""
-scene17 = ""
-scene18 = ""
-scene19 = ""
-scene20 = ""
+scenes_menu = {}    -- new array
+for i=1, #scenes_qty do
+    scenes_menu[i] = ""
+end
 
 last_scene = ""
 source_name = ""
@@ -60,14 +45,19 @@ function on_event(event)
         local scene = obs.obs_frontend_get_current_scene()
         local scene_name = obs.obs_source_get_name(scene)
         local actual_source = get_source_by_name(source_name)
+        local aux = false
 
+        
+        for i=1, #scenes_qty do
+           if scenes_menu[i] == scene_name then
+                
         -- enable mute when transitioning into one of the scenes
-        if scene_name == scene1 or scene_name == scene2 or scene_name == scene3 or scene_name == scene4 or scene_name == scene5 or scene_name == scene6 or scene_name == scene7 or scene_name == scene8 or scene_name == scene9 or scene_name == scene10 or scene_name == scene11 or scene_name == scene12 or scene_name == scene13 or scene_name == scene14 or scene_name == scene15 or scene_name == scene16 or scene_name == scene17 or scene_name == scene18 or scene_name == scene19 or scene_name == scene120  then
-            obs.obs_source_set_muted(actual_source, true)
-
+                obs.obs_source_set_muted(actual_source, true)
+            elseif scenes_menu[i] == last_scene then
+        
         -- disable mute when transitioning away from one of the scenes
-        elseif last_scene == scene1 or last_scene == scene2 or last_scene == scene3 or last_scene == scene4 or last_scene == scene5 or last_scene == scene6 or last_scene == scene7 or last_scene == scene8 or last_scene == scene9 or last_scene == scene10 or last_scene == scene11 or last_scene == scene12 or last_scene == scene13 or last_scene == scene14 or last_scene == scene15 or last_scene == scene16 or last_scene == scene17 or last_scene == scene18 or last_scene == scene19 or last_scene == scene20 then
-            obs.obs_source_set_muted(actual_source, false)
+                obs.obs_source_set_muted(actual_source, false)
+                end
         end
 
         last_scene = scene_name -- keep track of the last scene
@@ -95,51 +85,19 @@ function script_properties()
     obs.source_list_release(sources)
 
     -- Scenes
-    local scene1 = obs.obs_properties_add_list(props, "scene1", "Mute Scene 1", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene2 = obs.obs_properties_add_list(props, "scene2", "Mute Scene 2", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene3 = obs.obs_properties_add_list(props, "scene3", "Mute Scene 3", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene4 = obs.obs_properties_add_list(props, "scene4", "Mute Scene 4", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene5 = obs.obs_properties_add_list(props, "scene5", "Mute Scene 5", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene6 = obs.obs_properties_add_list(props, "scene6", "Mute Scene 6", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene7 = obs.obs_properties_add_list(props, "scene7", "Mute Scene 7", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene8 = obs.obs_properties_add_list(props, "scene8", "Mute Scene 8", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene9 = obs.obs_properties_add_list(props, "scene9", "Mute Scene 9", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene10 = obs.obs_properties_add_list(props, "scene10", "Mute Scene 10", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene11 = obs.obs_properties_add_list(props, "scene11", "Mute Scene 11", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene12 = obs.obs_properties_add_list(props, "scene12", "Mute Scene 12", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene13 = obs.obs_properties_add_list(props, "scene13", "Mute Scene 13", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene14 = obs.obs_properties_add_list(props, "scene14", "Mute Scene 14", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene15 = obs.obs_properties_add_list(props, "scene15", "Mute Scene 15", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene16 = obs.obs_properties_add_list(props, "scene16", "Mute Scene 16", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene17 = obs.obs_properties_add_list(props, "scene17", "Mute Scene 17", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene18 = obs.obs_properties_add_list(props, "scene18", "Mute Scene 18", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene19 = obs.obs_properties_add_list(props, "scene19", "Mute Scene 19", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
-    local scene20 = obs.obs_properties_add_list(props, "scene20", "Mute Scene 20", obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
+    local scenes_menu = {}    -- new array
+    for i=1, #scenes_qty do
+        scenes_menu[i] = obs.obs_properties_add_list(props, "scene" .. i, "Mute Scene " .. i, obs.OBS_COMBO_TYPE_EDITABLE, obs.OBS_COMBO_FORMAT_STRING)
+    end
     
     local scenes = obs.obs_frontend_get_scenes()
     if scenes ~= nil then
         for _, scene in ipairs(scenes) do
             local name = obs.obs_source_get_name(scene);
-            obs.obs_property_list_add_string(scene1, name, name)
-            obs.obs_property_list_add_string(scene2, name, name)
-            obs.obs_property_list_add_string(scene3, name, name)
-            obs.obs_property_list_add_string(scene4, name, name)
-            obs.obs_property_list_add_string(scene5, name, name)
-            obs.obs_property_list_add_string(scene6, name, name)
-            obs.obs_property_list_add_string(scene7, name, name)
-            obs.obs_property_list_add_string(scene8, name, name)
-            obs.obs_property_list_add_string(scene9, name, name)
-            obs.obs_property_list_add_string(scene10, name, name)
-            obs.obs_property_list_add_string(scene11, name, name)
-            obs.obs_property_list_add_string(scene12, name, name)
-            obs.obs_property_list_add_string(scene13, name, name)
-            obs.obs_property_list_add_string(scene14, name, name)
-            obs.obs_property_list_add_string(scene15, name, name)
-            obs.obs_property_list_add_string(scene16, name, name)
-            obs.obs_property_list_add_string(scene17, name, name)
-            obs.obs_property_list_add_string(scene18, name, name)
-            obs.obs_property_list_add_string(scene19, name, name)
-            obs.obs_property_list_add_string(scene20, name, name)
+            
+            for i=1, #scenes_qty do
+                obs.obs_property_list_add_string(scenes_menu[i], name, name)
+            end           
         end
     end
     obs.source_list_release(scenes)
@@ -156,26 +114,10 @@ end
 -- Respond to the script_update hook
 -- Load the properties into memory.
 function script_update(settings)
-    scene1 = obs.obs_data_get_string(settings, "scene1")
-    scene2 = obs.obs_data_get_string(settings, "scene2")
-    scene3 = obs.obs_data_get_string(settings, "scene3")
-    scene4 = obs.obs_data_get_string(settings, "scene4")
-    scene5 = obs.obs_data_get_string(settings, "scene5")
-    scene6 = obs.obs_data_get_string(settings, "scene6")
-    scene7 = obs.obs_data_get_string(settings, "scene7")
-    scene8 = obs.obs_data_get_string(settings, "scene8")
-    scene9 = obs.obs_data_get_string(settings, "scene9")
-    scene10 = obs.obs_data_get_string(settings, "scene10")
-    scene11 = obs.obs_data_get_string(settings, "scene11")
-    scene12 = obs.obs_data_get_string(settings, "scene12")
-    scene13 = obs.obs_data_get_string(settings, "scene13")
-    scene14 = obs.obs_data_get_string(settings, "scene14")
-    scene15 = obs.obs_data_get_string(settings, "scene15")
-    scene16 = obs.obs_data_get_string(settings, "scene16")
-    scene17 = obs.obs_data_get_string(settings, "scene17")
-    scene18 = obs.obs_data_get_string(settings, "scene18")
-    scene19 = obs.obs_data_get_string(settings, "scene19")
-    scene20 = obs.obs_data_get_string(settings, "scene20")
+    for i=1, #scenes_qty do
+        scenes_menu[i] = obs.obs_data_get_string(settings, "scene" .. i)
+    end
+    
     source_name = obs.obs_data_get_string(settings, "source")
 end
 
